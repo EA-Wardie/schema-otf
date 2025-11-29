@@ -52,14 +52,15 @@ class CollectionForm
                 ]),
                 Repeater::make('schema')
                     ->itemLabel(fn(array $state): ?string => $state['name'] ?? '[Field Name]')
-                    ->addActionLabel('Add field')
+//                    ->extraAttributes(['class' => '[&_.fi-grid]:gap-0'])
+                    ->addActionLabel('Add Field')
                     ->defaultItems(1)
                     ->label('Fields')
                     ->minItems(1)
                     ->collapsible()
                     ->collapsed()
                     ->schema([
-                        FusedGroup::make([
+//                        FusedGroup::make([
                             TextInput::make('name')
                                 ->prefix(new HtmlString('<pre>Name       </pre>'))
                                 ->maxLength(255)
@@ -149,7 +150,7 @@ class CollectionForm
                                     $get('type') === 'number'
                                     JS
                                 ),
-                        ]),
+//                        ]),
                     ]),
             ]);
     }

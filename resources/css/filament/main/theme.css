@@ -1,0 +1,96 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/Main/**/*';
+@source '../../../../resources/views/filament/main/**/*';
+
+* {
+    @apply rounded-none;
+}
+
+.fi-simple-main {
+    @apply p-6 rounded-none;
+}
+
+.fi-topbar {
+    @apply min-h-14;
+}
+
+.fi-sidebar-nav {
+    @apply px-6 py-5;
+}
+
+.fi-sidebar-item-btn {
+    @apply py-2 px-3;
+}
+
+.fi-ta-header {
+    @apply p-4;
+}
+
+.fi-ta-header-toolbar {
+    @apply p-3;
+}
+
+.fi-ta-header-cell {
+    @apply p-3;
+}
+
+.fi-ta-cell {
+    @apply pr-3 pl-0 py-0;
+}
+
+.fi-ta-text {
+    @apply p-3;
+}
+
+.fi-ta-icon {
+    @apply p-3;
+}
+
+.fi-ta-filters {
+    @apply p-4;
+}
+
+.fi-ta-empty-state-icon-bg {
+    @apply p-1.5;
+}
+
+.fi-ta-empty-state {
+    @apply pt-4 pb-3;
+}
+
+.fi-pagination {
+    @apply p-3;
+}
+
+.fi-modal-content {
+    @apply p-4;
+}
+
+.fi-modal-header {
+    @apply p-4;
+}
+
+.fi-modal-footer {
+    @apply p-4;
+}
+
+.fi-modal-footer-actions {
+    @apply grid grid-cols-2 gap-4;
+}
+
+.fi-section-content {
+    @apply p-4;
+}
+
+/*.fi-fo-repeater-item-content {*/
+/*    @apply p-0;*/
+/*}*/
+
+.fi-fo-repeater-item-header {
+    @apply p-2;
+}
+
+.fi-user-menu-trigger {
+    @apply p-0;
+}
