@@ -18,7 +18,7 @@ class CollectionsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->filtersTriggerAction(fn(Action $action) => $action->size(Size::Medium)
+            ->filtersTriggerAction(fn (Action $action) => $action->size(Size::Medium)
                 ->button())
             ->columns([
                 TextColumn::make('name'),

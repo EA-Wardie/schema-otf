@@ -7,7 +7,7 @@ use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\Support\Htmlable;
 use Str;
 
-enum RelationFieldType: string implements HasLabel, HasDescription
+enum RelationFieldType: string implements HasDescription, HasLabel
 {
     case Single = 'single';
     case Many = 'many';

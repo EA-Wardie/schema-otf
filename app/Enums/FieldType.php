@@ -2,7 +2,6 @@
 
 namespace App\Enums;
 
-use App\Models\Collection;
 use App\Models\Record;
 use Arr;
 use BackedEnum;
@@ -24,9 +23,8 @@ use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\HtmlString;
 
-enum FieldType: string implements HasLabel, HasDescription, HasIcon
+enum FieldType: string implements HasDescription, HasIcon, HasLabel
 {
     case Text = 'text';
     case Email = 'email';
@@ -100,7 +98,7 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
         $name = Arr::get($field, 'name');
         $slug = Arr::get($field, 'slug');
         $key = "data.$slug";
-        $required = (bool)Arr::get($field, 'required');
+        $required = (bool) Arr::get($field, 'required');
         $minLength = Arr::get($field, 'min_length');
         $maxLength = Arr::get($field, 'max_length', 255);
         $min = Arr::get($field, 'min');
@@ -109,7 +107,7 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
         $cardinality = RelationFieldType::from(Arr::get($field, 'cardinality', 'single'));
 
         $options = collect(Arr::get($field, 'options', []))
-            ->mapWithKeys(fn(mixed $value) => [$value => $value]);
+            ->mapWithKeys(fn (mixed $value) => [$value => $value]);
 
         $textInput = TextInput::make($key)
             ->minLength($minLength)
@@ -200,10 +198,10 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
         return match ($this) {
             self::Text => $textColumn,
             self::Email => $textColumn
-                ->url(fn(?string $state) => "mailto:$state")
+                ->url(fn (?string $state) => "mailto:$state")
                 ->openUrlInNewTab(),
             self::Url => $textColumn
-                ->url(fn(?string $state) => $state)
+                ->url(fn (?string $state) => $state)
                 ->openUrlInNewTab(),
             self::Number => $textColumn
                 ->color('primary'),

@@ -10,14 +10,23 @@ use JsonSerializable;
 class CollectionSchema implements Arrayable, JsonSerializable
 {
     public string $name;
+
     public string $slug;
+
     public FieldType $type;
+
     public int $collection;
+
     public RelationFieldType $cardinality;
+
     public bool $required;
+
     public int $min_length;
+
     public int $max_length;
+
     public int $min;
+
     public int $max;
 
     public function __construct(array $data)

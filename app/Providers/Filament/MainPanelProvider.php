@@ -23,6 +23,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+
 use function Filament\Support\original_request;
 
 class MainPanelProvider extends PanelProvider
@@ -31,9 +32,9 @@ class MainPanelProvider extends PanelProvider
     {
         $collectionNavigationItems = Collection::orderBy('name')
             ->get()
-            ->map(fn(Collection $collection, $index) => NavigationItem::make($collection->name)
-                ->isActiveWhen(fn() => original_request()->fullUrl() === ViewCollection::getUrl(parameters: ['record' => $collection], panel: 'main'))
-                ->url(fn() => ViewCollection::getUrl(parameters: ['record' => $collection], panel: 'main'))
+            ->map(fn (Collection $collection, $index) => NavigationItem::make($collection->name)
+                ->isActiveWhen(fn () => original_request()->fullUrl() === ViewCollection::getUrl(parameters: ['record' => $collection], panel: 'main'))
+                ->url(fn () => ViewCollection::getUrl(parameters: ['record' => $collection], panel: 'main'))
                 ->sort($index))
             ->toArray();
 
@@ -57,8 +58,8 @@ class MainPanelProvider extends PanelProvider
             ->profile()
             ->default()
             ->userMenuItems([
-                'profile' => fn(Action $action) => $action->label(auth()->user()->name),
-                'logout' => fn(Action $action) => $action->requiresConfirmation(),
+                'profile' => fn (Action $action) => $action->label(auth()->user()->name),
+                'logout' => fn (Action $action) => $action->requiresConfirmation(),
             ])
             ->middleware([
                 EncryptCookies::class,

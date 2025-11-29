@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "vite build",
 		"dev": "vite",
-		"pint": "./vendor/bin/pint --dirty",
+		"pint": "./vendor/bin/pint",
 		"models": "php artisan ide-helper:models --write-mixin",
         "test": "./vendor/bin/pest"
 	},

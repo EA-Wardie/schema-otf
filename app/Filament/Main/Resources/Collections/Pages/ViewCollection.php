@@ -13,7 +13,6 @@ use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Size;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,8 +43,8 @@ class ViewCollection extends ManageRelatedRecords
     {
         return $schema
             ->extraAttributes(['class' => 'gap-4'])
-            ->components(fn() => collect($this->record->schema)
-                ->map(fn(array $field) => FieldType::from(Arr::get($field, 'type'))
+            ->components(fn () => collect($this->record->schema)
+                ->map(fn (array $field) => FieldType::from(Arr::get($field, 'type'))
                     ->getField($field))
                 ->toArray());
     }
@@ -53,12 +52,12 @@ class ViewCollection extends ManageRelatedRecords
     public function table(Table $table): Table
     {
         $columns = collect($this->record->schema)
-            ->map(fn(array $field) => FieldType::from(Arr::get($field, 'type'))
+            ->map(fn (array $field) => FieldType::from(Arr::get($field, 'type'))
                 ->getColumn($field))
             ->toArray();
 
         return $table
-            ->filtersTriggerAction(fn(Action $action) => $action->size(Size::Medium)
+            ->filtersTriggerAction(fn (Action $action) => $action->size(Size::Medium)
                 ->button())
             ->emptyStateHeading('No Records')
             ->recordTitleAttribute('name')
@@ -74,7 +73,7 @@ class ViewCollection extends ManageRelatedRecords
                     ->slideOver(),
                 DeleteAction::make(),
             ])
-            ->modifyQueryUsing(fn(Builder $query) => $query
+            ->modifyQueryUsing(fn (Builder $query) => $query
                 ->withoutGlobalScopes([
                     SoftDeletingScope::class,
                 ]));
