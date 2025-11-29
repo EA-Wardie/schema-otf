@@ -6,7 +6,8 @@
 		"build": "vite build",
 		"dev": "vite",
 		"pint": "./vendor/bin/pint --dirty",
-		"models": "php artisan ide-helper:models --write-mixin"
+		"models": "php artisan ide-helper:models --write-mixin",
+        "test": "./vendor/bin/pest"
 	},
 	"dependencies": {
 		"autoprefixer": "^10.4.22",

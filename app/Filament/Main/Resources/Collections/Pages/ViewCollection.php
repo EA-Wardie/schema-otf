@@ -12,7 +12,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ManageRelatedRecords;
 use Filament\Schemas\Schema;
-use Filament\Support\Enums\Width;
+use Filament\Support\Enums\Size;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -32,7 +32,7 @@ class ViewCollection extends ManageRelatedRecords
     {
         return [
             CreateAction::make()
-                ->modalWidth(Width::Large)
+//                ->modalWidth(Width::Large)
                 ->createAnother(false)
                 ->stickyModalHeader()
                 ->stickyModalFooter()
@@ -43,7 +43,7 @@ class ViewCollection extends ManageRelatedRecords
     public function form(Schema $schema): Schema
     {
         return $schema
-            ->columns(1)
+            ->extraAttributes(['class' => 'gap-4'])
             ->components(fn() => collect($this->record->schema)
                 ->map(fn(array $field) => FieldType::from(Arr::get($field, 'type'))
                     ->getField($field))
@@ -52,18 +52,26 @@ class ViewCollection extends ManageRelatedRecords
 
     public function table(Table $table): Table
     {
+        $columns = collect($this->record->schema)
+            ->map(fn(array $field) => FieldType::from(Arr::get($field, 'type'))
+                ->getColumn($field))
+            ->toArray();
+
         return $table
-            ->filtersTriggerAction(fn(Action $action) => $action->button())
+            ->filtersTriggerAction(fn(Action $action) => $action->size(Size::Medium)
+                ->button())
             ->emptyStateHeading('No Records')
             ->recordTitleAttribute('name')
-            ->columns([
-                TextColumn::make('name'),
-            ])
+            ->columns($columns)
             ->filters([
                 TrashedFilter::make(),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->modalSubmitActionLabel('Save')
+                    ->stickyModalHeader()
+                    ->stickyModalFooter()
+                    ->slideOver(),
                 DeleteAction::make(),
             ])
             ->modifyQueryUsing(fn(Builder $query) => $query

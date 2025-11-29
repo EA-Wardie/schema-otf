@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('records', function (Blueprint $table) {
-            $table->uuid()
+            $table->uuid('id')
                 ->primary();
 
             $table->foreignUlid('collection_id')

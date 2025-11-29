@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Models\Collection;
+use App\Models\Record;
 use Arr;
 use BackedEnum;
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
@@ -18,7 +20,11 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
+use Filament\Tables\Columns\Column;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 
 enum FieldType: string implements HasLabel, HasDescription, HasIcon
 {
@@ -26,12 +32,12 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
     case Email = 'email';
     case Url = 'url';
     case Number = 'number';
-    case Markdown = 'markdown';
     case Select = 'select';
     case Boolean = 'boolean';
     case Date = 'date';
     case Time = 'time';
     case DateTime = 'date time';
+    case Markdown = 'markdown';
     case Json = 'json';
     case Relation = 'relation';
 
@@ -42,12 +48,12 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
             self::Email => 'Email',
             self::Url => 'URL',
             self::Number => 'Number',
-            self::Markdown => 'Markdown',
             self::Select => 'Select',
             self::Boolean => 'Yes/No',
             self::Date => 'Date',
             self::Time => 'Time',
             self::DateTime => 'Date/Time',
+            self::Markdown => 'Markdown',
             self::Json => 'JSON',
             self::Relation => 'Relation',
         };
@@ -60,12 +66,12 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
             self::Email => 'Email address with validation',
             self::Url => 'Web URL with validation',
             self::Number => 'Numeric value (integer or decimal)',
-            self::Markdown => 'Formatted text with markdown support',
             self::Select => 'Single choice from predefined options',
             self::Boolean => 'True/false toggle value',
             self::Date => 'Calendar date without time',
             self::Time => 'Time of day without date',
             self::DateTime => 'Combined date and time value',
+            self::Markdown => 'Formatted text with markdown support',
             self::Json => 'Structured JSON data',
             self::Relation => 'Reference to another record',
         };
@@ -78,12 +84,12 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
             self::Email => LucideIcon::Mail,
             self::Url => LucideIcon::Link,
             self::Number => LucideIcon::Hash,
-            self::Markdown => LucideIcon::TextSelect,
             self::Select => LucideIcon::Rows4,
             self::Boolean => LucideIcon::ToggleLeft,
             self::Date => LucideIcon::Calendar,
             self::Time => LucideIcon::Clock,
             self::DateTime => LucideIcon::CalendarClock,
+            self::Markdown => LucideIcon::TextSelect,
             self::Json => LucideIcon::Braces,
             self::Relation => LucideIcon::Workflow,
         };
@@ -99,27 +105,57 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
         $maxLength = Arr::get($field, 'max_length', 255);
         $min = Arr::get($field, 'min');
         $max = Arr::get($field, 'min');
+        $collectionId = Arr::get($field, 'collection');
+        $cardinality = RelationFieldType::from(Arr::get($field, 'cardinality', 'single'));
+
+        $options = collect(Arr::get($field, 'options', []))
+            ->mapWithKeys(fn(mixed $value) => [$value => $value]);
 
         $textInput = TextInput::make($key)
             ->minLength($minLength)
             ->maxLength($maxLength)
             ->required($required)
+            ->placeholder($name)
             ->minValue($min)
-            ->maxValue($max)
-            ->label($name);
+            ->maxValue($max);
 
         if ($this === self::Text) {
-            return $textInput->string();
+            return $textInput
+                ->string();
         } elseif ($this === self::Email) {
-            return $textInput->email();
+            return $textInput
+                ->email();
         } elseif ($this === self::Url) {
-            return $textInput->activeUrl()
+            return $textInput
+                ->activeUrl()
                 ->url();
         } elseif ($this === self::Number) {
-            return $textInput->numeric();
+            return $textInput
+                ->numeric();
+        } elseif ($this === self::Select) {
+            return Select::make($key)
+                ->placeholder($name)
+                ->options($options);
+        } elseif ($this === self::Boolean) {
+            return Checkbox::make($key)
+                ->default(false)
+                ->columnSpanFull();
+        } elseif ($this === self::Date) {
+            return DatePicker::make($key)
+                ->placeholder($name);
+        } elseif ($this === self::Time) {
+            return TimePicker::make($key)
+                ->seconds(false)
+                ->placeholder($name);
+        } elseif ($this === self::DateTime) {
+            return DateTimePicker::make($key)
+                ->seconds(false)
+                ->placeholder($name);
         } elseif ($this === self::Markdown) {
             return MarkdownEditor::make($key)
                 ->required($required)
+                ->placeholder($name)
+                ->columnSpanFull()
                 ->string()
                 ->toolbarButtons([
                     ['heading'],
@@ -128,28 +164,65 @@ enum FieldType: string implements HasLabel, HasDescription, HasIcon
                     ['table'],
                     ['undo', 'redo'],
                 ]);
-        } elseif ($this === self::Select) {
-            return Select::make($key)
-                ->options([]);
-        } elseif ($this === self::Boolean) {
-            return Checkbox::make($key)
-                ->default(false);
-        } elseif ($this === self::Date) {
-            return DatePicker::make($key);
-        } elseif ($this === self::Time) {
-            return TimePicker::make($key);
-        } elseif ($this === self::DateTime) {
-            return DateTimePicker::make($key);
         } elseif ($this === self::Json) {
-            return CodeEditor::make($key);
+            return CodeEditor::make($key)
+                ->language(CodeEditor\Enums\Language::Json)
+                ->columnSpanFull();
         } elseif ($this === self::Relation) {
-            dd($field);
-//            if() {
-//
-//            }
-//            return LucideIcon::Workflow;
+            $records = Record::where('collection_id', $collectionId)
+                ->pluck('id', 'id');
+
+            $relationSelect = Select::make($key)
+                ->required($required)
+                ->placeholder($name)
+                ->options($records);
+
+            return match ($cardinality) {
+                RelationFieldType::Single => $relationSelect,
+                RelationFieldType::Many => $relationSelect
+                    ->columnSpanFull()
+                    ->multiple(),
+            };
         }
 
         return Hidden::make();
+    }
+
+    public function getColumn(array $field): Column
+    {
+        $name = Arr::get($field, 'name');
+        $slug = Arr::get($field, 'slug');
+        $key = "data.$slug";
+
+        $textColumn = TextColumn::make($key)
+            ->label($name);
+
+        return match ($this) {
+            self::Text => $textColumn,
+            self::Email => $textColumn
+                ->url(fn(?string $state) => "mailto:$state")
+                ->openUrlInNewTab(),
+            self::Url => $textColumn
+                ->url(fn(?string $state) => $state)
+                ->openUrlInNewTab(),
+            self::Number => $textColumn
+                ->color('primary'),
+            self::Select => $textColumn
+                ->badge(),
+            self::Boolean => IconColumn::make($key)
+                ->label($name)
+                ->boolean(),
+            self::Date => $textColumn
+                ->date(),
+            self::Time => $textColumn
+                ->time('H:m'),
+            self::DateTime => $textColumn
+                ->dateTime('M d, Y H:m'),
+            self::Markdown => $textColumn
+                ->markdown(),
+            self::Json => $textColumn,
+            self::Relation => $textColumn
+                ->badge(),
+        };
     }
 }

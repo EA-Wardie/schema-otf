@@ -15,6 +15,7 @@ class ListCollections extends ListRecords
     {
         return [
             CreateAction::make()
+                ->modalCloseButton(false)
                 ->modalWidth(Width::Large)
                 ->createAnother(false)
                 ->stickyModalHeader()
