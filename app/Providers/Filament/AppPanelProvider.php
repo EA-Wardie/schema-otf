@@ -32,8 +32,8 @@ class AppPanelProvider extends PanelProvider
         $collectionNavigationItems = Collection::orderBy('name')
             ->get()
             ->map(fn(Collection $collection, $index) => NavigationItem::make($collection->name)
-                ->isActiveWhen(fn() => original_request()->fullUrl() === ViewCollection::getUrl(parameters: ['record' => $collection], panel: 'main'))
-                ->url(fn() => ViewCollection::getUrl(parameters: ['record' => $collection], panel: 'main'))
+                ->isActiveWhen(fn() => original_request()->fullUrl() === ViewCollection::getUrl(parameters: ['record' => $collection]))
+                ->url(fn() => ViewCollection::getUrl(parameters: ['record' => $collection]))
                 ->sort($index))
             ->toArray();
 
@@ -61,6 +61,7 @@ class AppPanelProvider extends PanelProvider
             ->path('')
             ->profile()
             ->default()
+            ->spa()
             ->userMenuItems([
                 'profile' => fn(Action $action) => $action->label(auth()->user()->name),
                 'logout' => fn(Action $action) => $action->requiresConfirmation(),

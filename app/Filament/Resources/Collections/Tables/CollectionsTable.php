@@ -10,7 +10,6 @@ use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
 class CollectionsTable
@@ -27,7 +26,6 @@ class CollectionsTable
             ])
             ->filters([
                 TernaryFilter::make('published'),
-                TrashedFilter::make(),
             ])
             ->recordActions([
                 ViewAction::make(),

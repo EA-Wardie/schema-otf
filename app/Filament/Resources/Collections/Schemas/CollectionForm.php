@@ -31,6 +31,7 @@ class CollectionForm
                     ->placeholder('Name')
                     ->maxLength(255)
                     ->hiddenLabel()
+                    ->autofocus()
                     ->required()
                     ->string(),
                 Checkbox::make('published')
@@ -48,19 +49,18 @@ class CollectionForm
                         Grid::make()
                             ->columns()
                             ->schema([
-                                Select::make('type')
-                                    ->selectablePlaceholder(false)
-                                    ->placeholder('Type')
-                                    ->default(FieldType::Text)
-                                    ->options($types)
-                                    ->required()
-                                    ->live(),
                                 TextInput::make('name')
                                     ->placeholder('Name')
                                     ->maxLength(255)
                                     ->live(onBlur: true)
                                     ->required()
                                     ->string(),
+                                Select::make('type')
+                                    ->selectablePlaceholder(false)
+                                    ->placeholder('Type')
+                                    ->default(FieldType::Text)
+                                    ->options($types)
+                                    ->required(),
                                 TagsInput::make('options')
                                     ->requiredIf('type', FieldType::Select)
                                     ->placeholder('Options')
@@ -132,105 +132,6 @@ class CollectionForm
                                         JS
                                     ),
                             ]),
-                        //                        Group::make()
-                        //                            ->visibleJs(fn(string $operation) => $operation === 'create')
-                        //                            ->extraAttributes(['class' => 'gap-x-4'])
-                        //                            ->columns()
-                        //                            ->schema([
-                        //                                Select::make('type')
-                        //                                    ->selectablePlaceholder(false)
-                        //                                    ->placeholder('Type')
-                        //                                    ->default(FieldType::Text)
-                        //                                    ->options($types)
-                        //                                    ->required(),
-                        //                                TextInput::make('name')
-                        //                                    ->placeholder('Name')
-                        //                                    ->maxLength(255)
-                        //                                    ->live(onBlur: true)
-                        //                                    ->required()
-                        //                                    ->string(),
-                        //                            ]),
-                        //                        TagsInput::make('options')
-                        //                            ->reorderable()
-                        //                            ->required()
-                        //                            ->visibleJs(<<<'JS'
-                        //                                $get('type') === 'select'
-                        //                                JS
-                        //                            ),
-                        //                        Group::make()
-                        //                            ->extraAttributes(['class' => 'gap-x-4'])
-                        //                            ->columns()
-                        //                            ->schema([
-                        //                                Select::make('collection')
-                        //                                    ->requiredIf('type', FieldType::Relation)
-                        //                                    ->selectablePlaceholder(false)
-                        //                                    ->placeholder('Collection')
-                        //                                    ->options($collections)
-                        //                                    ->visibleJs(<<<'JS'
-                        //                                    $get('type') === 'relation'
-                        //                                    JS
-                        //                                    ),
-                        //                                Select::make('cardinality')
-                        //                                    ->requiredIf('type', FieldType::Relation)
-                        //                                    ->options(RelationFieldType::class)
-                        //                                    ->default(RelationFieldType::Single)
-                        //                                    ->selectablePlaceholder(false)
-                        //                                    ->placeholder('Cardinality')
-                        //                                    ->visibleJs(<<<'JS'
-                        //                                    $get('type') === 'relation'
-                        //                                    JS
-                        //                                    ),
-                        //                            ])
-                        //                            ->visibleJs(<<<'JS'
-                        //                                    $get('type') === 'relation'
-                        //                                    JS
-                        //                            ),
-                        //                        Group::make()
-                        //                            ->extraAttributes(['class' => 'gap-x-4'])
-                        //                            ->columns()
-                        //                            ->schema([
-                        //                                TextInput::make('min_length')
-                        //                                    ->placeholder('Min Length')
-                        //                                    ->maxLength(3)
-                        //                                    ->maxValue(255)
-                        //                                    ->numeric()
-                        //                                    ->visibleJs(<<<'JS'
-                        //                                    ['text', 'email', 'url'].includes($get('type'))
-                        //                                    JS
-                        //                                    ),
-                        //                                TextInput::make('max_length')
-                        //                                    ->placeholder('Max Length')
-                        //                                    ->maxLength(3)
-                        //                                    ->maxValue(255)
-                        //                                    ->default(255)
-                        //                                    ->numeric()
-                        //                                    ->visibleJs(<<<'JS'
-                        //                                    ['text', 'email', 'url'].includes($get('type'))
-                        //                                    JS
-                        //                                    ),
-                        //                                TextInput::make('min')
-                        //                                    ->placeholder('Min Value')
-                        //                                    ->maxLength(255)
-                        //                                    ->numeric()
-                        //                                    ->visibleJs(<<<'JS'
-                        //                                    $get('type') === 'number'
-                        //                                    JS
-                        //                                    ),
-                        //                                TextInput::make('max')
-                        //                                    ->placeholder('Max Value')
-                        //                                    ->maxLength(255)
-                        //                                    ->numeric()
-                        //                                    ->visibleJs(<<<'JS'
-                        //                                    $get('type') === 'number'
-                        //                                    JS
-                        //                                    ),
-                        //                            ]),
-                        //                        Checkbox::make('required')
-                        //                            ->default(false)
-                        //                            ->visibleJs(<<<'JS'
-                        //                                    $get('type') !== 'boolean'
-                        //                                    JS
-                        //                            ),
                     ]),
             ]);
     }
