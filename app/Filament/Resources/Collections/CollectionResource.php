@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Main\Resources\Collections;
+namespace App\Filament\Resources\Collections;
 
-use App\Filament\Main\Resources\Collections\Pages\ListCollections;
-use App\Filament\Main\Resources\Collections\Pages\ViewCollection;
-use App\Filament\Main\Resources\Collections\Schemas\CollectionForm;
-use App\Filament\Main\Resources\Collections\Tables\CollectionsTable;
+use App\Filament\Resources\Collections\Pages\ListCollections;
+use App\Filament\Resources\Collections\Pages\ViewCollection;
+use App\Filament\Resources\Collections\Schemas\CollectionForm;
+use App\Filament\Resources\Collections\Tables\CollectionsTable;
 use App\Models\Collection;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;

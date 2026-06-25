@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Main\Resources\Collections\Pages;
+namespace App\Filament\Resources\Collections\Pages;
 
 use App\Enums\FieldType;
-use App\Filament\Main\Resources\Collections\CollectionResource;
+use App\Filament\Resources\Collections\CollectionResource;
 use App\Models\Collection;
 use Arr;
 use Filament\Actions\Action;

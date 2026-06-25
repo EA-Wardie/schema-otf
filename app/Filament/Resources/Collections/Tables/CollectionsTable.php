@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Main\Resources\Collections\Tables;
+namespace App\Filament\Resources\Collections\Tables;
 
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;

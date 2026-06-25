@@ -9,8 +9,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js',
-                'resources/css/filament/main/theme.css',
+                'resources/js/app.ts',
+                'resources/css/filament/theme.css',
             ],
             refresh: true,
         }),

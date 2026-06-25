@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Collection;
-use Str;
+use Illuminate\Support\Str;
 
 class CollectionObserver
 {
@@ -15,7 +15,7 @@ class CollectionObserver
         $collection->slug = Str::slug($collection->name);
 
         $collection->schema = collect($collection->schema)
-            ->map(fn (array $field) => [
+            ->map(fn(array $field) => [
                 ...$field,
                 'slug' => Str::slug($field['name']),
             ])
@@ -38,7 +38,7 @@ class CollectionObserver
         $collection->slug = Str::slug($collection->name);
 
         $collection->schema = collect($collection->schema)
-            ->map(fn (array $field) => [
+            ->map(fn(array $field) => [
                 ...$field,
                 'slug' => Str::slug($field['name']),
             ])

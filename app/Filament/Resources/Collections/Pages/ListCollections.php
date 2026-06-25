@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Main\Resources\Collections\Pages;
+namespace App\Filament\Resources\Collections\Pages;
 
-use App\Filament\Main\Resources\Collections\CollectionResource;
+use App\Filament\Resources\Collections\CollectionResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Enums\Width;

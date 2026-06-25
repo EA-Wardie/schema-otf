@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Main\Resources\Collections\Schemas;
+namespace App\Filament\Resources\Collections\Schemas;
 
 use App\Enums\FieldType;
 use App\Enums\RelationFieldType;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Main\Pages;
+namespace App\Filament\Pages;
 
 use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Schemas\Schema;
